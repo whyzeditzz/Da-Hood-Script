@@ -17,8 +17,8 @@ ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 Frame.Name = "MainFrame"
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
-Frame.Size = UDim2.new(0, 200, 0, 100)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.Size = UDim2.new(0, 300, 0, 150)
 Frame.Active = true
 Frame.Draggable = true
 
@@ -39,7 +39,7 @@ Title.TextSize = 24
 Button.Name = "DaHoodButton"
 Button.Parent = Frame
 Button.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-Button.Position = UDim2.new(0.5, -50, 0.5, 0)
+Button.Position = UDim2.new(0.5, -50, 0.5, 10)
 Button.Size = UDim2.new(0, 100, 0, 30)
 Button.Font = Enum.Font.Gotham
 Button.Text = "Da Hood Script"
@@ -111,8 +111,8 @@ SecondaryGui.Enabled = false
 SecondaryFrame.Name = "SecondaryFrame"
 SecondaryFrame.Parent = SecondaryGui
 SecondaryFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-SecondaryFrame.Position = UDim2.new(0.5, -100, 0.5, -50)
-SecondaryFrame.Size = UDim2.new(0, 200, 0, 100)
+SecondaryFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+SecondaryFrame.Size = UDim2.new(0, 300, 0, 150)
 SecondaryFrame.Active = true
 SecondaryFrame.Draggable = true
 
@@ -133,7 +133,7 @@ LockTitle.TextSize = 24
 ToggleButton.Name = "ToggleButton"
 ToggleButton.Parent = SecondaryFrame
 ToggleButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-ToggleButton.Position = UDim2.new(0.5, -50, 0.5, 0)
+ToggleButton.Position = UDim2.new(0.5, -50, 0.5, 10)
 ToggleButton.Size = UDim2.new(0, 100, 0, 30)
 ToggleButton.Font = Enum.Font.Gotham
 ToggleButton.Text = "Toggle"
@@ -224,7 +224,7 @@ Button.MouseButton1Click:Connect(function()
     SecondaryGui.Enabled = not SecondaryGui.Enabled
 end)
 
--- Function to lock the camera
+-- Function to lock the camera onto the user the cursor is on
 local cameraLocked = false
 
 ToggleButton.MouseButton1Click:Connect(function()
@@ -239,19 +239,13 @@ end)
 game:GetService("UserInputService").InputBegan:Connect(function(input)
     if input.KeyCode == Enum.KeyCode.C and cameraLocked then
         local player = game.Players.LocalPlayer
-        local character = player.Character
-        if character then
-            local target = nil
-            for _, v in pairs(game.Players:GetPlayers()) do
-                if v ~= player and v.Character then
-                    target = v.Character
-                    break
-                end
-            end
-            if target then
-                local camera = game.Workspace.CurrentCamera
-                camera.CameraSubject = target
-            end
+        local mouse = player:GetMouse()
+        local target = mouse.Target
+        
+        if target and target.Parent and game.Players:GetPlayerFromCharacter(target.Parent) then
+            local targetPlayer = game.Players:GetPlayerFromCharacter(target.Parent)
+            local camera = game.Workspace.CurrentCamera
+            camera.CameraSubject = targetPlayer.Character.Humanoid
         end
     end
 end)
