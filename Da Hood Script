@@ -1,251 +1,68 @@
--- Create the main GUI
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local Title = Instance.new("TextLabel")
-local Button = Instance.new("TextButton")
-local UICornerButton = Instance.new("UICorner")
-local CloseButton = Instance.new("TextButton")
-local MinimizeButton = Instance.new("TextButton")
-local MinimizedFrame = Instance.new("Frame")
-local UICornerMinimized = Instance.new("UICorner")
-local OpenButton = Instance.new("TextButton")
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Name = "WhyzzInfJumpGui"
 
-ScreenGui.Name = "MainGui"
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Create Frame
+local frame = Instance.new("Frame")
+frame.Parent = screenGui
+frame.Size = UDim2.new(0, 300, 0, 150)
+frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+frame.BorderSizePixel = 0
+frame.BackgroundTransparency = 0.5
+frame.Name = "MainFrame"
 
-Frame.Name = "MainFrame"
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-Frame.Size = UDim2.new(0, 300, 0, 150)
-Frame.Active = true
-Frame.Draggable = true
+-- Create UICorner for Frame
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0, 15)
+frameCorner.Parent = frame
 
-UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = Frame
+-- Create Title Label
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Parent = frame
+titleLabel.Size = UDim2.new(1, 0, 0, 50)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Whyzz Inf Jump"
+titleLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+titleLabel.TextScaled = true
+titleLabel.Font = Enum.Font.GothamBold
 
-Title.Name = "Title"
-Title.Parent = Frame
-Title.BackgroundColor3 = Color3.new(1, 1, 1)
-Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0.5, -50, 0, 0)
-Title.Size = UDim2.new(0, 100, 0, 50)
-Title.Font = Enum.Font.GothamBold
-Title.Text = "Whyzz"
-Title.TextColor3 = Color3.new(1, 1, 1)
-Title.TextSize = 24
+-- Create Button
+local button = Instance.new("TextButton")
+button.Parent = frame
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.6, 0)
+button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+button.BorderSizePixel = 0
+button.Text = "Activate"
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.TextScaled = true
+button.Font = Enum.Font.GothamBold
 
-Button.Name = "DaHoodButton"
-Button.Parent = Frame
-Button.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-Button.Position = UDim2.new(0.5, -50, 0.5, 10)
-Button.Size = UDim2.new(0, 100, 0, 30)
-Button.Font = Enum.Font.Gotham
-Button.Text = "Da Hood Script"
-Button.TextColor3 = Color3.new(1, 1, 1)
-Button.TextSize = 14
+-- Create UICorner for Button
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 15)
+buttonCorner.Parent = button
 
-UICornerButton.CornerRadius = UDim.new(0, 10)
-UICornerButton.Parent = Button
+-- Infinite Jump Functionality
+local infiniteJumpEnabled = false
 
-CloseButton.Name = "CloseButton"
-CloseButton.Parent = Frame
-CloseButton.BackgroundColor3 = Color3.new(0.8, 0.2, 0.2)
-CloseButton.Position = UDim2.new(1, -30, 0, 0)
-CloseButton.Size = UDim2.new(0, 30, 0, 30)
-CloseButton.Font = Enum.Font.GothamBold
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.new(1, 1, 1)
-CloseButton.TextSize = 14
+local function onJumpRequest()
+    if infiniteJumpEnabled then
+        game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState("Jumping")
+    end
+end
 
-MinimizeButton.Name = "MinimizeButton"
-MinimizeButton.Parent = Frame
-MinimizeButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-MinimizeButton.Position = UDim2.new(1, -60, 0, 0)
-MinimizeButton.Size = UDim2.new(0, 30, 0, 30)
-MinimizeButton.Font = Enum.Font.GothamBold
-MinimizeButton.Text = "-"
-MinimizeButton.TextColor3 = Color3.new(1, 1, 1)
-MinimizeButton.TextSize = 14
-
-MinimizedFrame.Name = "MinimizedFrame"
-MinimizedFrame.Parent = ScreenGui
-MinimizedFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-MinimizedFrame.Position = UDim2.new(0.5, -50, 0.5, -25)
-MinimizedFrame.Size = UDim2.new(0, 100, 0, 50)
-MinimizedFrame.Visible = false
-MinimizedFrame.Active = true
-MinimizedFrame.Draggable = true
-
-UICornerMinimized.CornerRadius = UDim.new(0, 10)
-UICornerMinimized.Parent = MinimizedFrame
-
-OpenButton.Name = "OpenButton"
-OpenButton.Parent = MinimizedFrame
-OpenButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-OpenButton.Position = UDim2.new(0.5, -50, 0.5, -15)
-OpenButton.Size = UDim2.new(0, 100, 0, 30)
-OpenButton.Font = Enum.Font.Gotham
-OpenButton.Text = "Open"
-OpenButton.TextColor3 = Color3.new(1, 1, 1)
-OpenButton.TextSize = 14
-
--- Create the secondary GUI
-local SecondaryGui = Instance.new("ScreenGui")
-local SecondaryFrame = Instance.new("Frame")
-local UICorner2 = Instance.new("UICorner")
-local LockTitle = Instance.new("TextLabel")
-local ToggleButton = Instance.new("TextButton")
-local UICornerToggle = Instance.new("UICorner")
-local CloseButton2 = Instance.new("TextButton")
-local MinimizeButton2 = Instance.new("TextButton")
-local MinimizedFrame2 = Instance.new("Frame")
-local UICornerMinimized2 = Instance.new("UICorner")
-local OpenButton2 = Instance.new("TextButton")
-
-SecondaryGui.Name = "SecondaryGui"
-SecondaryGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-SecondaryGui.Enabled = false
-
-SecondaryFrame.Name = "SecondaryFrame"
-SecondaryFrame.Parent = SecondaryGui
-SecondaryFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-SecondaryFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
-SecondaryFrame.Size = UDim2.new(0, 300, 0, 150)
-SecondaryFrame.Active = true
-SecondaryFrame.Draggable = true
-
-UICorner2.CornerRadius = UDim.new(0, 10)
-UICorner2.Parent = SecondaryFrame
-
-LockTitle.Name = "LockTitle"
-LockTitle.Parent = SecondaryFrame
-LockTitle.BackgroundColor3 = Color3.new(1, 1, 1)
-LockTitle.BackgroundTransparency = 1
-LockTitle.Position = UDim2.new(0.5, -50, 0, 0)
-LockTitle.Size = UDim2.new(0, 100, 0, 50)
-LockTitle.Font = Enum.Font.GothamBold
-LockTitle.Text = "Lock"
-LockTitle.TextColor3 = Color3.new(1, 1, 1)
-LockTitle.TextSize = 24
-
-ToggleButton.Name = "ToggleButton"
-ToggleButton.Parent = SecondaryFrame
-ToggleButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-ToggleButton.Position = UDim2.new(0.5, -50, 0.5, 10)
-ToggleButton.Size = UDim2.new(0, 100, 0, 30)
-ToggleButton.Font = Enum.Font.Gotham
-ToggleButton.Text = "Toggle"
-ToggleButton.TextColor3 = Color3.new(1, 1, 1)
-ToggleButton.TextSize = 14
-
-UICornerToggle.CornerRadius = UDim.new(0, 10)
-UICornerToggle.Parent = ToggleButton
-
-CloseButton2.Name = "CloseButton"
-CloseButton2.Parent = SecondaryFrame
-CloseButton2.BackgroundColor3 = Color3.new(0.8, 0.2, 0.2)
-CloseButton2.Position = UDim2.new(1, -30, 0, 0)
-CloseButton2.Size = UDim2.new(0, 30, 0, 30)
-CloseButton2.Font = Enum.Font.GothamBold
-CloseButton2.Text = "X"
-CloseButton2.TextColor3 = Color3.new(1, 1, 1)
-CloseButton2.TextSize = 14
-
-MinimizeButton2.Name = "MinimizeButton"
-MinimizeButton2.Parent = SecondaryFrame
-MinimizeButton2.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-MinimizeButton2.Position = UDim2.new(1, -60, 0, 0)
-MinimizeButton2.Size = UDim2.new(0, 30, 0, 30)
-MinimizeButton2.Font = Enum.Font.GothamBold
-MinimizeButton2.Text = "-"
-MinimizeButton2.TextColor3 = Color3.new(1, 1, 1)
-MinimizeButton2.TextSize = 14
-
-MinimizedFrame2.Name = "MinimizedFrame"
-MinimizedFrame2.Parent = SecondaryGui
-MinimizedFrame2.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-MinimizedFrame2.Position = UDim2.new(0.5, -50, 0.5, -25)
-MinimizedFrame2.Size = UDim2.new(0, 100, 0, 50)
-MinimizedFrame2.Visible = false
-MinimizedFrame2.Active = true
-MinimizedFrame2.Draggable = true
-
-UICornerMinimized2.CornerRadius = UDim.new(0, 10)
-UICornerMinimized2.Parent = MinimizedFrame2
-
-OpenButton2.Name = "OpenButton"
-OpenButton2.Parent = MinimizedFrame2
-OpenButton2.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-OpenButton2.Position = UDim2.new(0.5, -50, 0.5, -15)
-OpenButton2.Size = UDim2.new(0, 100, 0, 30)
-OpenButton2.Font = Enum.Font.Gotham
-OpenButton2.Text = "Open"
-OpenButton2.TextColor3 = Color3.new(1, 1, 1)
-OpenButton2.TextSize = 14
-
--- Function to close the main GUI
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
--- Function to minimize the main GUI
-MinimizeButton.MouseButton1Click:Connect(function()
-    Frame.Visible = false
-    MinimizedFrame.Visible = true
-end)
-
--- Function to open the minimized main GUI
-OpenButton.MouseButton1Click:Connect(function()
-    Frame.Visible = true
-    MinimizedFrame.Visible = false
-end)
-
--- Function to close the secondary GUI
-CloseButton2.MouseButton1Click:Connect(function()
-    SecondaryGui:Destroy()
-end)
-
--- Function to minimize the secondary GUI
-MinimizeButton2.MouseButton1Click:Connect(function()
-    SecondaryFrame.Visible = false
-    MinimizedFrame2.Visible = true
-end)
-
--- Function to open the minimized secondary GUI
-OpenButton2.MouseButton1Click:Connect(function()
-    SecondaryFrame.Visible = true
-    MinimizedFrame2.Visible = false
-end)
-
--- Function to toggle the secondary GUI
-Button.MouseButton1Click:Connect(function()
-    SecondaryGui.Enabled = not SecondaryGui.Enabled
-end)
-
--- Function to lock the camera onto the user the cursor is on
-local cameraLocked = false
-
-ToggleButton.MouseButton1Click:Connect(function()
-    cameraLocked = not cameraLocked
-    if cameraLocked then
-        ToggleButton.Text = "Unlock"
+local function toggleInfiniteJump()
+    infiniteJumpEnabled = not infiniteJumpEnabled
+    if infiniteJumpEnabled then
+        button.Text = "Deactivate"
     else
-        ToggleButton.Text = "Lock"
+        button.Text = "Activate"
     end
-end)
+end
 
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.C and cameraLocked then
-        local player = game.Players.LocalPlayer
-        local mouse = player:GetMouse()
-        local target = mouse.Target
-        
-        if target and target.Parent and game.Players:GetPlayerFromCharacter(target.Parent) then
-            local targetPlayer = game.Players:GetPlayerFromCharacter(target.Parent)
-            local camera = game.Workspace.CurrentCamera
-            camera.CameraSubject = targetPlayer.Character.Humanoid
-        end
-    end
-end)
+button.MouseButton1Click:Connect(toggleInfiniteJump)
+game:GetService("UserInputService").JumpRequest:Connect(onJumpRequest)
